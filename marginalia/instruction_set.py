@@ -110,7 +110,7 @@ class instruction_set:
       for batch_instruction in self.generated:
         entries = re.findall(r"\{.+?\}", batch_instruction, re.DOTALL)
         for entry in entries:
-          validate_json = self.validateJSON(entry)
+          validate_json = self.validateJSON(self, entry)
           if validate_json:
             entry = json.loads(entry)
             if "id" in entry:
