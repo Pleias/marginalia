@@ -116,6 +116,34 @@ By the end of this process you can check your json:
 instructions.valid_json
 ```
 
+With the library of Benjamin Franklin it should look like this:
 
+```json
+{'id': 'book 3',
+  'author': 'Bayley',
+  'title': 'universal etimologlcal Dictionary',
+  'translator': '',
+  'date': '1727',
+  'place': 'Oxford',
+  'format': '',
+  'other': ''},
+ {'id': 'book 4',
+  'author': 'Marlorati',
+  'title': 'Thesaurus Scripturae',
+  'translator': '',
+  'date': '1727',
+  'place': 'Oxford',
+  'format': '',
+  'other': ''},
+ {'id': 'book 5',
+  'author': 'Wiquefort',
+  'title': 'compleat Ambassador',
+  'translator': 'Digby',
+  'date': '1727',
+  'place': 'Oxford',
+  'format': '',
+  'other': 'finely bound'}
+```
 
+LLM a both flexible and sensitive tools, so you should not hesitate to tweak and the prompt several times, preferably on a smaller sample of the data until you find the most workable setting.
 
