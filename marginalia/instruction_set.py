@@ -142,7 +142,7 @@ class instruction_set:
 
 
     #The core function to have a generating loop.
-    def llm_generate_loop(self, llm, sampling_params):
+    def llm_generate_loop(self, llm, sampling_params, max_verification = 20):
 
       self.dict_unstructured, self.batch_unstructured, prompts = self.json_prompt(self.unstructured)
 
@@ -163,19 +163,18 @@ class instruction_set:
       else:
         json_to_validate = False
 
-      run_id = 1
-
-      #The actual loop.
-      while(json_to_validate):
-        dict_unstructured, batch_unstructured, prompts = self.json_prompt(self.missing_id, type_source = "dict")
-
-        generations = llm.generate(prompts, sampling_params)
-        self.missing_id = {}
-        self.extract_generated_text(generations)
-
-        self.validate_json(dict_unstructured)
-
-        if len(self.missing_id) > 0:
-          json_to_validate = True
-        else:
-          json_to_validate = False
+      #The actual loop. We opted for a for loop with a max_verification setting to avoid eternal loops.
+      for verification_run in range(0, max_verification):
+        if json_to_validate:
+            dict_unstructured, batch_unstructured, prompts = self.json_prompt(self.missing_id, type_source = "dict")
+    
+            generations = llm.generate(prompts, sampling_params)
+            self.missing_id = {}
+            self.extract_generated_text(generations)
+    
+            self.validate_json(dict_unstructured)
+    
+            if len(self.missing_id) > 0:
+              json_to_validate = True
+            else:
+              json_to_validate = False
