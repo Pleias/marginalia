@@ -22,12 +22,14 @@ unstructured = pd.read_tsv("franklin_library", sep = "\t")["text"].tolist()
 marginalia aims to recover *data scheme*. They are creating by initiating a dictionary with fields and their definition. Basically, you want to apply the data scheme to your unstructured set of text everytime fits.
 
 ```python
-data_scheme = {"titre": "le titre de l'ouvrage",
-               "auteur": "le ou les auteurs de l'ouvrage",
-               "date": "la date de publication",
-               "lieu": "le lieu de publication",
-               "editeur": "l'éditeur de l'ouvrage",
-               "page": "le nombre de page de l'ouvrage"}
+data_scheme = {"identifier": "the number of the reference",
+               "title": "the title of the book",
+               "author": "the author(s) of the book",
+               "translator": "the translator(s) of the book",
+               "date": "the date of publication",
+               "place": "the place of publication",
+               "format": "any information related to the format such as volumes, folios",
+               "other": "any other information related to the book"}
 ```
 
 The core of marginalia functionality is instruction_set. That's where you are going to pass the unstructured text, the data scheme and the prompt instructions.
