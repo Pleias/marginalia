@@ -1,7 +1,8 @@
 # marginalia
 
-<img src="https://raw.githubusercontent.com/Pleias/marginalia/main/notebook/marginalia_logo.jpg" style="float:right;" alt="marginalia logo" width="300" style="display: block;margin-left: auto;margin-right: auto;"/>
-
+<p align="center">
+<img src="https://raw.githubusercontent.com/Pleias/marginalia/main/notebook/marginalia_logo.jpg" alt="marginalia logo" width="300"/>
+</p>
 
 marginalia is a lightweight application to perform corpus analysis at scale with open LLMs like Mistral or Llama. With proper instructions, marginalia will transform any list of texts into structured data.
 
