@@ -35,12 +35,12 @@ The core of marginalia functionality is instruction_set. That's where you are go
 ```python
 instructions = instruction_set(data_scheme = data_scheme,
                                unstructured = unstructured,
-                               system_prompt = "Tu es un puissant annotateur de données bibliographiques en français",
-                               input_prompt = "Transforme ces différentes notices bibliographiques d'articles ou de chapitres de livres, en données structurées.",
-                               definition_prompt = "Extrait les données bibliographiques suivantes :",
-                               structure_prompt = "Retourne les résultats sous la forme d'une liste au format json :",
-                               data_prompt = "Voici la liste des références :",
-                               name_id = "référence",
+                               system_prompt = "You are a powerful annotator of bibliographic data",
+                               input_prompt = "Transform this list of book entries into structured bibliographic data",
+                               definition_prompt = "Extract the following bibliographic fields:",
+                               structure_prompt = "Return the results as a json structured like this :",
+                               data_prompt = "Here is the list of books :",
+                               name_id = "book",
                                size_batch = 10)
 ```
 
@@ -53,4 +53,38 @@ As you can notice the prompt as six parts:
 * Name id: the name used to qualify each unstructured text sample
 
 Additionally you can define the size of the batch with a size_batch. Overall the longer your text sample are, the smaller your batch should be to not overload the context window.
+
+Before launching the actual LLM-powered annotation, it is advisable to give a look the data and check if everything is fine. You can do it with test_prompt:
+
+```python
+instructions.test_prompt()
+print(instructions.prompts[0])
+```
+
+Which should return something like:
+
+```text
+<|im_start|>system
+You are a powerful annotator of bibliographic data
+<|im_end|>
+<|im_start|>user
+Transform this list of book entries into structured bibliographic data
+
+Extract the following bibliographic fields: the title of the book ("title"), the author(s) of the book ("author"), the translator(s) of the book ("translator"), the date of publication ("date"), the place of publication ("place"), any information related to the format such as volumes, folios ("format"), any other information related to the book ("other")
+
+Return the results as a json structured like this : {"id": "…", "title": "…", "author": "…", "translator": "…", "date": "…", "place": "…", "format": "…", "other": "…"}
+
+Here is the list of books :
+
+book 0: 1 FINE large Folio BIBLE, compleat, Oxford 1727.
+
+book 1: 2 Ditto, with Maps, Notes, &c.
+
+book 2: 3 Clarendon's History of the Rebellion, 3 Vols
+
+(…)
+<|im_end|>
+<|im_start|> assistant
+```
+
 
