@@ -10,14 +10,6 @@ class instruction_set:
         self.name_id = name_id
         self.size_batch = size_batch
         self.outputs = outputs
-
-    def validateJSON(jsonData):
-      import json
-      try:
-          json.loads(jsonData)
-      except ValueError as err:
-          return False
-      return True
     
     #Setting the first initial batch on all the data.
     def set_batch(self, unstructured, sep_id = ":"):
@@ -102,7 +94,7 @@ class instruction_set:
 
     #We only check if the id is missing, as sometime not only is the json not compliant, but the LLM will generate nothing.
     def validate_json(self, dict_unstructured):
-      import re
+      import re, json
       valid_id = []
       available_json = []
       missing_json = []
@@ -110,7 +102,11 @@ class instruction_set:
       for batch_instruction in self.generated:
         entries = re.findall(r"\{.+?\}", batch_instruction, re.DOTALL)
         for entry in entries:
-          validate_json = self.validateJSON(self, entry)
+          try:
+            json.loads(jsonData)
+            validate_json = True
+          except ValueError as err:
+            validate_json = False
           if validate_json:
             entry = json.loads(entry)
             if "id" in entry:
