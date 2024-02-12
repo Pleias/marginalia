@@ -121,7 +121,7 @@ class instruction_set:
                     valid_id.append(id_entry)
                     entry["original_source"] = self.dict_unstructured[int(id_entry)]
                     entry["id"] = int(id_entry)
-              self.valid_json.append(entry)
+                    self.valid_json.append(entry)
 
       for available_id in dict_unstructured:
         available_id = str(available_id)
@@ -181,3 +181,5 @@ class instruction_set:
               json_to_validate = True
             else:
               json_to_validate = False
+      #Finally we return the json ordered by the id field.
+      instructions.valid_json = sorted(instructions.valid_json, key=lambda x: x['id'])
