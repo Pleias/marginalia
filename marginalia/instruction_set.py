@@ -111,7 +111,11 @@ class instruction_set:
             entry = json.loads(entry)
             if "id" in entry:
               id_entry = entry["id"]
-              id_entry = re.search(r"\\d+", id_entry, re.DOTALL)
+              id_entry = re.findall(r"\\d+", id_entry, re.DOTALL)[0]
+              if len(id_entry) > 0:
+                  id_entry = id_entry[0]
+              else:
+                  id_entry = None
               if id_entry is not None:
                 valid_id.append(id_entry)
                 entry["original_source"] = self.dict_unstructured[int(id_entry)]
