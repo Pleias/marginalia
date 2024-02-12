@@ -16,5 +16,16 @@ marginalia works with any list of unstructured texts. It will generate id on the
 ```python
 import pandas as pd
 
-unstructured = pd.read_tsv("franklin_library")["text"].tolist()
+unstructured = pd.read_tsv("franklin_library", sep = "\t")["text"].tolist()
+```
+
+marginalia aims to recover *data scheme*. They are creating by initiating a dictionary with fields and their definition. Basically, you want to apply the data scheme to your unstructured set of text everytime fits.
+
+```python
+data_scheme = {"titre": "le titre de l'ouvrage",
+               "auteur": "le ou les auteurs de l'ouvrage",
+               "date": "la date de publication",
+               "lieu": "le lieu de publication",
+               "editeur": "l'éditeur de l'ouvrage",
+               "page": "le nombre de page de l'ouvrage"}
 ```
