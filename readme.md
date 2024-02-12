@@ -29,3 +29,28 @@ data_scheme = {"titre": "le titre de l'ouvrage",
                "editeur": "l'éditeur de l'ouvrage",
                "page": "le nombre de page de l'ouvrage"}
 ```
+
+The core of marginalia functionality is instruction_set. That's where you are going to pass the unstructured text, the data scheme and the prompt instructions.
+
+```python
+instructions = instruction_set(data_scheme = data_scheme,
+                               unstructured = unstructured,
+                               system_prompt = "Tu es un puissant annotateur de données bibliographiques en français",
+                               input_prompt = "Transforme ces différentes notices bibliographiques d'articles ou de chapitres de livres, en données structurées.",
+                               definition_prompt = "Extrait les données bibliographiques suivantes :",
+                               structure_prompt = "Retourne les résultats sous la forme d'une liste au format json :",
+                               data_prompt = "Voici la liste des références :",
+                               name_id = "référence",
+                               size_batch = 10)
+```
+
+As you can notice the prompt as six parts:
+* System prompt: basically defining what kind of the tool LLM is, in a very broad way.
+* Input prompt: the actual task at hand.
+* Definition prompt: the introductory prompt for the list of definitions stored in the data scheme.
+* Structure prompt: the introductory prompt for an empty sample of the json structure.
+* Data prompt: the introductory prompt for the list of unstructured text sample.
+* Name id: the name used to qualify each unstructured text sample
+
+Additionally you can define the size of the batch with a size_batch. Overall the longer your text sample are, the smaller your batch should be to not overload the context window.
+
