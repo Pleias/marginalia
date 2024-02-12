@@ -122,7 +122,7 @@ instructions.valid_json
 
 With the library of Benjamin Franklin it should look like this:
 
-```json
+```text
 {'id': 'book 3',
   'author': 'Bayley',
   'title': 'universal etimologlcal Dictionary',
