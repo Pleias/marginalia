@@ -112,6 +112,7 @@ class instruction_set:
             if "id" in entry:
               id_entry = entry["id"]
               id_entry = re.findall(r"\\d+", id_entry, re.DOTALL)
+              print(id_entry)
               if len(id_entry) > 0:
                   id_entry = id_entry[0]
               else:
