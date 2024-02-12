@@ -117,7 +117,7 @@ class instruction_set:
               else:
                   id_entry = None
               if id_entry is not None:
-                if int(id_entry) in self.dict_unstructure:
+                if int(id_entry) in self.dict_unstructured:
                     valid_id.append(id_entry)
                     entry["original_source"] = self.dict_unstructured[int(id_entry)]
                     entry["id"] = int(id_entry)
