@@ -112,7 +112,7 @@ class instruction_set:
             if "id" in entry:
               id_entry = entry["id"]
               id_entry = re.search(r"\\d+", id_entry, re.DOTALL)
-              if id_entry.isnumeric():
+              if id_entry is not None:
                 valid_id.append(id_entry)
                 entry["original_source"] = self.dict_unstructured[int(id_entry)]
               self.valid_json.append(entry)
