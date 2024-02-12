@@ -120,6 +120,7 @@ class instruction_set:
                 if int(id_entry) in self.dict_unstructure:
                     valid_id.append(id_entry)
                     entry["original_source"] = self.dict_unstructured[int(id_entry)]
+                    entry["id"] = int(id_entry)
               self.valid_json.append(entry)
 
       for available_id in dict_unstructured:
