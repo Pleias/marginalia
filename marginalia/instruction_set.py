@@ -117,8 +117,9 @@ class instruction_set:
               else:
                   id_entry = None
               if id_entry is not None:
-                valid_id.append(id_entry)
-                entry["original_source"] = self.dict_unstructured[int(id_entry)]
+                if int(id_entry) in self.dict_unstructure:
+                    valid_id.append(id_entry)
+                    entry["original_source"] = self.dict_unstructured[int(id_entry)]
               self.valid_json.append(entry)
 
       for available_id in dict_unstructured:
