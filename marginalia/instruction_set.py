@@ -134,6 +134,12 @@ class instruction_set:
           generated_text = output.outputs[0].text
           text_generated.append(generated_text)
       self.generated = text_generated
+        #The core function to have a generating loop.
+
+    #A small function to test the promt before sending it to the LLM
+    def test_prompt(self):
+      dict_unstructured, batch_unstructured, self.prompts = self.json_prompt(self.unstructured)
+
 
     #The core function to have a generating loop.
     def llm_generate_loop(self, llm, sampling_params):
