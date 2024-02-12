@@ -7,9 +7,6 @@ setup(
     author='Pierre-Carl Langlais',
     url='https://github.com/Pleias/vllm-json',
     packages=find_packages(),
-    install_requires=[
-        'vllm'
-    ],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
