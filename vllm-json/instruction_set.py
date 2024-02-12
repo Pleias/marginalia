@@ -11,6 +11,14 @@ class instruction_set:
         self.size_batch = size_batch
         self.outputs = outputs
 
+    def validateJSON(jsonData):
+      import json
+      try:
+          json.loads(jsonData)
+      except ValueError as err:
+          return False
+      return True
+    
     #Setting the first initial batch on all the data.
     def set_batch(self, unstructured, sep_id = ":"):
       length_unst = len(unstructured)
