@@ -14,7 +14,7 @@ Other choices include:
 marginalia works with any list of unstructured texts. It will generate id on the fly simply based on the index of the text, as well as return the unprocessed text as part of the json output.
 
 ```python
-from BERTransfer import create_bertopic
+import pandas as pd
 
-bertopic_model = create_bertopic(ids = ids, docs = docs, language = "english")
+unstructured = pd.read_tsv("franklin_library")["text"].tolist()
 ```
