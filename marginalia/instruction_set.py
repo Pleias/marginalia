@@ -182,4 +182,4 @@ class instruction_set:
             else:
               json_to_validate = False
       #Finally we return the json ordered by the id field.
-      instructions.valid_json = sorted(instructions.valid_json, key=lambda x: x['id'])
+      self.valid_json = sorted(self.valid_json, key=lambda x: x['id'])
