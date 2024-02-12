@@ -103,7 +103,7 @@ class instruction_set:
         entries = re.findall(r"\{.+?\}", batch_instruction, re.DOTALL)
         for entry in entries:
           try:
-            json.loads(jsonData)
+            json.loads(entry)
             validate_json = True
           except ValueError as err:
             validate_json = False
