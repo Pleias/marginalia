@@ -9,7 +9,7 @@ Other choices include:
 * Maintaining consistent numeric identifier for text.
 * Fully customizable prompt, which is especially needed when working on non-English languages. The best open LLM are heavily English-focused and will tend to return translated results in English if they are not prompted in the languages of the source.
 
-## Example
+## Setting up marginalia
 
 marginalia works with any list of unstructured texts. It will generate id on the fly simply based on the index of the text, as well as return the unprocessed text as part of the json output.
 
@@ -86,5 +86,34 @@ book 2: 3 Clarendon's History of the Rebellion, 3 Vols
 <|im_end|>
 <|im_start|> assistant
 ```
+
+## Annotation with vllm
+
+Then to use the LLM, you need to load it with vllm. The notebook provide a tested solution for Google Colab but do not hesitate to check the vllm documentation:
+```python
+from vllm import LLM, SamplingParams
+import os
+new_model_name = "mistral-7b-hermes-2.5"
+
+llm = LLM(new_model_name)
+
+sampling_params = SamplingParams(temperature=0.7, top_p=0.95, max_tokens=8000, presence_penalty = 0)
+```
+
+At this point, the actual annotation is one command:
+
+```python
+instructions.llm_generate_loop(llm, sampling_params)
+```
+
+You'll notice that marginalia does several pass on vllm to send again any non-compliant json.
+
+By the end of this process you can check your json:
+
+```python
+instructions.valid_json
+```
+
+
 
 
