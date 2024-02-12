@@ -80,7 +80,7 @@ class instruction_set:
           json_definition.append(v + ' ("' + k + '")')
           json_structure.append('"' + k + '": "…"')
 
-      json_definition = self.definition_prompt + " " + ", ".join(json_definition)
+      json_definition = self.definition_prompt + " " + "the " + self.name_id + ' id ("id"), ' + ", ".join(json_definition)
       json_structure = self.structure_prompt + ' {"id": "…", ' + ", ".join(json_structure) + "}"
 
       prompt = f'<|im_start|>system\n{self.system_prompt}\n<|im_end|>\n<|im_start|>user\n{self.input_prompt}\n\n{json_definition}\n\n{json_structure}\n\n{self.data_prompt}\n\n'
