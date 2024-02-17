@@ -1,4 +1,4 @@
-
+from .marginalia_function import evaluate_length
 
 class instruction_set:
     def __init__(self, unstructured = None, data_scheme = None, system_prompt=None, input_prompt = None, definition_prompt = None, structure_prompt = None, data_prompt = None, name_id = None, size_batch = None, outputs = None):
@@ -126,10 +126,22 @@ class instruction_set:
                   id_entry = None
               if id_entry is not None:
                 if int(id_entry) in self.dict_unstructured:
-                    valid_id.append(id_entry)
-                    entry["original_source"] = self.dict_unstructured[int(id_entry)]
-                    entry["id"] = int(id_entry)
-                    self.valid_json.append(entry)
+                    #Final series of tests:
+                    valid_json = True
+
+                    #Length:
+                    valid_json = evaluate_length(valid_json, self.data_scheme, entry)
+
+                    #Choices:
+                    #entry, valid_json = evaluate_choices(self.data_scheme, entry)
+
+                    #Types
+
+                    if valid_json:
+                        valid_id.append(id_entry)
+                        entry["original_source"] = self.dict_unstructured[int(id_entry)]
+                        entry["id"] = int(id_entry)
+                        self.valid_json.append(entry)
 
       for available_id in dict_unstructured:
         available_id = str(available_id)
