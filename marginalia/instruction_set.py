@@ -84,7 +84,7 @@ class instruction_set:
               json_definition.append(v + ' ("' + k + '")')
               json_structure.append('"' + k + '": "…"')
       else:
-          for data_entity_element in data_scheme:
+          for data_entity_element in self.data_scheme:
               json_definition.append(data_entity_element.definition + ' ("' + data_entity_element.field + '")')
               json_structure.append('"' + data_entity_element.field + '": "…"')
 
