@@ -1,3 +1,5 @@
+from .data_entity import data_entity
+
 class instruction_set:
     def __init__(self, unstructured = None, data_scheme = None, system_prompt=None, input_prompt = None, definition_prompt = None, structure_prompt = None, data_prompt = None, name_id = None, size_batch = None, outputs = None):
         self.unstructured = unstructured
@@ -76,9 +78,15 @@ class instruction_set:
       json_definition = []
       json_structure = []
 
-      for k, v in self.data_scheme.items():
-          json_definition.append(v + ' ("' + k + '")')
-          json_structure.append('"' + k + '": "…"')
+      #For now we maintain backward compatibility but will be removed.
+      if isinstance(self.data_scheme, dict):
+          for k, v in self.data_scheme.items():
+              json_definition.append(v + ' ("' + k + '")')
+              json_structure.append('"' + k + '": "…"')
+      else:
+          for data_entity_element in data_scheme:
+              json_definition.append(data_entity_element.definition + ' ("' + data_entity_element.field + '")')
+              json_structure.append('"' + data_entity_element.field + '": "…"')
 
       json_definition = self.definition_prompt + " " + "the " + self.name_id + ' id ("id"), ' + ", ".join(json_definition)
       json_structure = self.structure_prompt + ' {"id": "…", ' + ", ".join(json_structure) + "}"
