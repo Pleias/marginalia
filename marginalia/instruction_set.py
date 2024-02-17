@@ -1,12 +1,4 @@
 
-#The class for each entry in the data scheme.
-class data_entity:
-    def __init__(self, field = None, definition = None, choice=None, min_length = None, literal_check = False):
-        self.field = field
-        self.definition = definition
-        self.choice = choice
-        self.min_length = min_length
-        self.literal_check = literal_check
 
 class instruction_set:
     def __init__(self, unstructured = None, data_scheme = None, system_prompt=None, input_prompt = None, definition_prompt = None, structure_prompt = None, data_prompt = None, name_id = None, size_batch = None, outputs = None):
