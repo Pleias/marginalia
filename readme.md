@@ -14,6 +14,7 @@ Other choices include:
 * Sending the pieces of data as "batch" (10 elements by default). Previous trials show that hading more than one sample helps the LLM to identify recurring patterns. It may also speed up text generation.
 * Maintaining consistent numeric identifier for text.
 * Fully customizable prompt, which is especially needed when working on non-English languages. The best open LLM are heavily English-focused and will tend to return translated results in English if they are not prompted in the languages of the source.
+* Support for open weights LLM by default with vllm. ChatGPT and other API-only solution may be integrated at some point in the future, but they are generally not meeting the requirements for running at scale.
 
 ## Data analysis
 
