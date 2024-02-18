@@ -7,3 +7,7 @@ class data_entity:
         self.choice = choice
         self.min_length = min_length
         self.literal_check = literal_check
+
+        #We pre-compile the choice into a regex
+        if self.choice is not None:
+            self.choice_regex = re.compile("|".join(self.choice).lower)
