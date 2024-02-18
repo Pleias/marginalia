@@ -15,9 +15,33 @@ Other choices include:
 * Maintaining consistent numeric identifier for text.
 * Fully customizable prompt, which is especially needed when working on non-English languages. The best open LLM are heavily English-focused and will tend to return translated results in English if they are not prompted in the languages of the source.
 
-## Setting up marginalia
+## Data analysis
 
 marginalia works with any list of unstructured texts. It will generate id on the fly simply based on the index of the text, as well as return the unprocessed text as part of the json output.
+
+marginalia aims to recover *data scheme*. They are creating by initiating a list of *data entity* objects with fields, definitions and data constraints. Basically, you want to apply the data scheme to your unstructured set of text everytime fits.
+
+While they need to be used carefully and in close accordance with the prompt, data constraints are powerful tool to ensure the LLM will generate the data that match your expectations. For now, marginalia support two constraints:
+* **choices**: a limited range of options for the answer. If it exists, the compliant answer will be extracted by marginalia using a regex.
+* **answer length**: a threshold in a number of words for the answer. This is especially practical when you want to add a free-commenting field.
+
+```python
+data_scheme = [data_entity(field = "reference_evaluate",, 
+                           definition = "argument whether answering the question is about knowledge and require some references rather than a task like translation, with a few concise sentences",
+                           min_length = 7),
+               data_entity(field = "reference_result",
+                           definition = "indicate by yes, no or non applicable if references are needed",
+                           choice = ["yes", "no", "non applicable"])]
+```
+In this example we use both constraints for two different fields:
+* "reference_evaluate": has to be a text with at least 7 words.
+* "reference_result" has to be a binary answer ("yes" or "no") as well as the option or not being applicable, for instance due to the analysis not being conclusive.
+
+Strong data constraints and unsufficiently clear prompts will result in the dataset not being fully annotated.
+
+## Data conversion
+
+marginalia can also convert unstructured texts into a structured data format.
 
 ```python
 import pandas as pd
