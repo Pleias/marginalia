@@ -6,7 +6,7 @@
 
 **marginalia** is an opinionated python library for structured data generation at scale with open LLMs like Mistral or Llama. With proper instructions, marginalia will transform any list of texts into structured data.
 
-The easiest way to discover marginalia is to test the associated Google Colab notebook for [text classification](https://colab.research.google.com/drive/1dMcldrZtootOyRmC_Ug5552iy9T4e-0c?usp=sharing) or [data extraction](https://colab.research.google.com/drive/1xKjK2mDDpXMaKG5YLpFhOM7jehxt0kEt?usp=sharing). Notice that for now you will need to use an A100 GPU for now (recommended in any case for larger scale corpus analysis with vllm).
+The easiest way to discover marginalia is to test the Google Colab demo for [text classification](https://colab.research.google.com/drive/1dMcldrZtootOyRmC_Ug5552iy9T4e-0c?usp=sharing). You will need to use an A100 GPU to run it, you can also test the [light demo](https://colab.research.google.com/drive/1_ah2DwAYThfgu3C8HlCimAhbkM59Am3F?usp=sharing) on the free version of Google Colab that runs on a "quantized" LLM: while the text generation are slower and the results are less good, the model can run on a T4 GPU.
 
 In contrast with other json libraries and frameworks for LLM, marginalia does not rely on *controlled generation* but on *bootstrap generation*: instead of selecting LLM output at the token level, marginalia retain or reject entire generation.
 
