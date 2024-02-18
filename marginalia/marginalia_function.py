@@ -1,4 +1,4 @@
-y
+
 #A function to apply a threshold of text length.
 #Especially useful to enforce reasoning.
 def evaluate_data_conformity(valid_json, data_scheme, entry):
