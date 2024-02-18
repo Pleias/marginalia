@@ -7,7 +7,7 @@ def evaluate_length(valid_json, data_scheme, entry):
       if data_element.min_length is not None:
         print(entry)
         print(entry[data_element.field])
-        if len(entry[data_element.field].split)<=data_element.min_length:
+        if len(entry[data_element.field].split())<=data_element.min_length:
           valid_json = False
   return valid_json
 
