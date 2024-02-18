@@ -153,4 +153,7 @@ result
 
 Results should look like this:
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/Pleias/marginalia/main/notebook/table_marginalia.png" alt="marginalia logo" width="600"/>
+</p>
 
