@@ -1,7 +1,7 @@
 
 #A function to apply a threshold of text length.
 #Especially useful to enforce reasoning.
-def evaluate_length(valid_json, data_scheme, entry):
+def evaluate_data_conformity(valid_json, data_scheme, entry):
   for data_element in data_scheme:
     if data_element.field in entry:
       
