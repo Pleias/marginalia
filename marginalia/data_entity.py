@@ -10,4 +10,5 @@ class data_entity:
 
         #We pre-compile the choice into a regex
         if self.choice is not None:
+            import re
             self.choice_regex = re.compile("|".join(self.choice).lower)
