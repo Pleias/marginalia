@@ -20,7 +20,15 @@ Other choices include:
 
 ## Data analysis
 
-marginalia works with any list of unstructured texts. It will generate id on the fly simply based on the index of the text, as well as return the unprocessed text as part of the json output.
+marginalia works with any list of unstructured texts. It will generate id on the fly simply based on the index of the text, as well as return the unprocessed text as part of the json output. 
+
+The classification demo starts by attempting to classify rather a question from the OpenHermes dataset requires some external reference to back them up or not. This is a very concrete issue for Retrieval-Generated Augmentation (RAG), as an LLM can be used for a variety of tasks that do not always involve looking for references. 
+
+```python
+import pandas as pd
+
+unstructured = pd.read_json("https://github.com/Pleias/marginalia/raw/main/notebook/open_hermes_instruction_select.json")["instruction"].tolist()
+```
 
 marginalia aims to recover *data scheme*. They are creating by initiating a list of *data entity* objects with fields, definitions and data constraints. Basically, you want to apply the data scheme to your unstructured set of text everytime fits.
 
@@ -29,6 +37,8 @@ While they need to be used carefully and in close accordance with the prompt, da
 * **answer length**: a threshold in a number of words for the answer. This is especially practical when you want to add a free-commenting field.
 
 ```python
+from marginalia import data_entity
+
 data_scheme = [data_entity(field = "reference_evaluate",, 
                            definition = "argument whether answering the question is about knowledge and require some references rather than a task like translation, with a few concise sentences",
                            min_length = 7),
@@ -40,7 +50,70 @@ In this example we use both constraints for two different fields:
 * "reference_evaluate": has to be a text with at least 7 words.
 * "reference_result" has to be a binary answer ("yes" or "no") as well as the option or not being applicable, for instance due to the analysis not being conclusive.
 
-Strong data constraints and unsufficiently clear prompts will result in the dataset not being fully annotated.
+Strong data constraints and unsufficiently clear prompts will result in longer generation and potentially the dataset not being fully annotated.
+
+The core of marginalia functionality is instruction_set. That's where you are going to pass the unstructured text, the data scheme and the prompt instructions.
+
+```python
+from marginalia import instruction_set
+
+instructions = instruction_set(data_scheme = data_scheme,
+                               unstructured = unstructured,
+                               system_prompt = "You are a powerful evaluator of user inputs",
+                               input_prompt = "Assess whether theses questions require some encyclopedic references to back them up. References would be typically needed if the answer mandates external knowledge rather than a task to perform like translating two languages, reformulation or solving a math problem based on the element present in the instruction.",
+                               definition_prompt = "Your answer should include the following fields:",
+                               structure_prompt = "Return the results as a json structured like this :",
+                               data_prompt = "Here is the list of questions :",
+                               name_id = "question",
+                               size_batch = 5)
+```
+
+As you can notice the prompt has seven parts:
+* System prompt: basically defining what kind of the tool LLM is, in a very broad way.
+* Input prompt: the actual task at hand.
+* Definition prompt: the introductory prompt for the list of definitions stored in the data scheme.
+* Structure prompt: the introductory prompt for an empty sample of the json structure.
+* Data prompt: the introductory prompt for the list of unstructured text sample.
+* Name id: the name used to qualify each unstructured text sample
+* Size of the batch: marginalia groups text in batch for quicker inference and enhanced accuracy. Overall your text sample are, the smaller your batch should be to not overload the context window. Here the questions can be long so we settle for a batch of size of 5 instead of the default 10.
+
+Before launching the actual LLM-powered annotation, it is advisable to give a look the data and check if everything is fine. You can do it with test_prompt:
+
+```python
+instructions.test_prompt()
+print(instructions.prompts[0])
+```
+
+Which should return something like:
+
+```text
+
+
+<|im_start|>system
+You are a powerful evaluator of user inputs
+<|im_end|>
+<|im_start|>user
+Assess whether theses questions require some encyclopedic references to back them up. References would be typically needed if the answer mandates external knowledge rather than a task to perform like translating two languages, reformulation or solving a math problem based on the element present in the instruction.
+
+Your answer should include the following fields: the question id ("id"), argument whether answering the question is about knowledge and require some references rather than a task like translation, with a few concise sentences ("reference_evaluate"), indicate by yes, no or non applicable if references are needed ("reference_result")
+
+Return the results as a json structured like this : {"id": "…", "reference_evaluate": "…", "reference_result": "…"}
+
+Here is the list of questions :
+
+question 0: Rewrite the following sentence in a more formal tone. Hey, guys! Just wanna let ya know we aced the project and the boss is super happy with it.
+
+question 1: Create a C# function that accepts an integer array, sorts the array in ascending order, and returns the sorted array. int[] arr = { 8, 2, 4, 9, 1, 5 };
+
+question 2: I heard that Sasha asked Ash to come home. They were tired of arguing.  And I was wondering What will Ash want to do next? Available options: [A]. stay angry. [B]. make up. [C]. not talk about it. Answer:
+
+question 3: Problem: Solve 143*y + 30 = 128*y for y. And the answer is...
+
+question 4: This is vital to ensuring that people can make the right choices about their diet, and is one of the best ways we can tackle the diet-related diseases which are so prominent across the European Union.  Translate to German
+
+<|im_end|>
+<|im_start|> assistant
+```
 
 ## Data conversion
 
