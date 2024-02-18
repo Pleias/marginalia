@@ -115,85 +115,6 @@ question 4: This is vital to ensuring that people can make the right choices abo
 <|im_start|> assistant
 ```
 
-## Data conversion
-
-marginalia can also convert unstructured texts into a structured data format.
-
-```python
-import pandas as pd
-
-unstructured = pd.read_tsv("franklin_library", sep = "\t")["text"].tolist()
-```
-
-marginalia aims to recover *data scheme*. They are creating by initiating a dictionary with fields and their definition. Basically, you want to apply the data scheme to your unstructured set of text everytime fits.
-
-```python
-data_scheme = {"identifier": "the number of the reference",
-               "title": "the title of the book",
-               "author": "the author(s) of the book",
-               "translator": "the translator(s) of the book",
-               "date": "the date of publication",
-               "place": "the place of publication",
-               "format": "any information related to the format such as volumes, folios",
-               "other": "any other information related to the book"}
-```
-
-The core of marginalia functionality is instruction_set. That's where you are going to pass the unstructured text, the data scheme and the prompt instructions.
-
-```python
-instructions = instruction_set(data_scheme = data_scheme,
-                               unstructured = unstructured,
-                               system_prompt = "You are a powerful annotator of bibliographic data",
-                               input_prompt = "Transform this list of book entries into structured bibliographic data",
-                               definition_prompt = "Extract the following bibliographic fields:",
-                               structure_prompt = "Return the results as a json structured like this :",
-                               data_prompt = "Here is the list of books :",
-                               name_id = "book",
-                               size_batch = 10)
-```
-
-As you can notice the prompt as six parts:
-* System prompt: basically defining what kind of the tool LLM is, in a very broad way.
-* Input prompt: the actual task at hand.
-* Definition prompt: the introductory prompt for the list of definitions stored in the data scheme.
-* Structure prompt: the introductory prompt for an empty sample of the json structure.
-* Data prompt: the introductory prompt for the list of unstructured text sample.
-* Name id: the name used to qualify each unstructured text sample
-
-Additionally you can define the size of the batch with a size_batch. Overall the longer your text sample are, the smaller your batch should be to not overload the context window.
-
-Before launching the actual LLM-powered annotation, it is advisable to give a look the data and check if everything is fine. You can do it with test_prompt:
-
-```python
-instructions.test_prompt()
-print(instructions.prompts[0])
-```
-
-Which should return something like:
-
-```text
-<|im_start|>system
-You are a powerful annotator of bibliographic data
-<|im_end|>
-<|im_start|>user
-Transform this list of book entries into structured bibliographic data
-
-Extract the following bibliographic fields: the title of the book ("title"), the author(s) of the book ("author"), the translator(s) of the book ("translator"), the date of publication ("date"), the place of publication ("place"), any information related to the format such as volumes, folios ("format"), any other information related to the book ("other")
-
-Return the results as a json structured like this : {"id": "…", "title": "…", "author": "…", "translator": "…", "date": "…", "place": "…", "format": "…", "other": "…"}
-
-Here is the list of books :
-
-book 0: 1 FINE large Folio BIBLE, compleat, Oxford 1727.
-
-book 1: 2 Ditto, with Maps, Notes, &c.
-
-book 2: 3 Clarendon's History of the Rebellion, 3 Vols
-
-(…)
-<|im_end|>
-<|im_start|> assistant
-```
 
 ## Annotation with vllm
 
@@ -222,34 +143,15 @@ By the end of this process you can check your json:
 instructions.valid_json
 ```
 
-With the library of Benjamin Franklin it should look like this:
+Or, since it's a flat json, immediately convert it to a tabular format.
 
-```text
-{'id': 'book 3',
-  'author': 'Bayley',
-  'title': 'universal etimologlcal Dictionary',
-  'translator': '',
-  'date': '1727',
-  'place': 'Oxford',
-  'format': '',
-  'other': ''},
- {'id': 'book 4',
-  'author': 'Marlorati',
-  'title': 'Thesaurus Scripturae',
-  'translator': '',
-  'date': '1727',
-  'place': 'Oxford',
-  'format': '',
-  'other': ''},
- {'id': 'book 5',
-  'author': 'Wiquefort',
-  'title': 'compleat Ambassador',
-  'translator': 'Digby',
-  'date': '1727',
-  'place': 'Oxford',
-  'format': '',
-  'other': 'finely bound'}
+```python
+import pandas as pd
+
+result = pd.DataFrame(instructions.valid_json)[['original_source', 'reference_evaluate', 'reference_result']]
+result
 ```
 
-LLM a both flexible and sensitive tools, so you should not hesitate to tweak and the prompt several times, preferably on a smaller sample of the data until you find the most workable setting.
+Results should look like this:
+
 
