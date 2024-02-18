@@ -14,6 +14,11 @@ def evaluate_data_conformity(valid_json, data_scheme, entry):
       #Evaluation 2: choices
       if data_element.choice is not None:
         if entry[data_element.field] is not None:
+
+          #Anticipation for a real problem: the LLM can generate nested python
+          #(maybe should be done before)
+          if isinstance(entry[data_element.field], list):
+            entry[data_element.field] = entry[data_element.field][0]
           choice_result = re.findall(data_element.choice_regex, entry[data_element.field].lower())
           if len(choice_result) > 0:
             choice_result = choice_result[0]
