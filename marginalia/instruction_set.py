@@ -166,6 +166,7 @@ class instruction_set:
       print("A sample of the prompt:\n", prompts[0])
       self.valid_json = []
       self.missing_id = {}
+      self.iterations = [len(prompts)]
 
       #The initial generation on all the data
       generations = llm.generate(prompts, sampling_params)
@@ -184,7 +185,9 @@ class instruction_set:
       for verification_run in range(0, max_verification):
         if json_to_validate:
             dict_unstructured, batch_unstructured, prompts = self.json_prompt(self.missing_id, type_source = "dict")
-    
+
+            #We save the number of remaining prompts for benchmark/analysis
+            self.iterations.append(len(prompts))
             generations = llm.generate(prompts, sampling_params)
             self.missing_id = {}
             self.extract_generated_text(generations)
