@@ -15,7 +15,7 @@ def evaluate_data_conformity(valid_json, data_scheme, entry):
       if data_element.choice is not None:
         print(entry[data_element.field])
         choice_result = re.findall(data_element.choice_regex, entry[data_element.field].lower())
-        if len(choice_result) > 0
+        if len(choice_result) > 0:
           choice_result = choice_result[0]
           entry[data_element.field] = choice_result
         else:
