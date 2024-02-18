@@ -19,7 +19,7 @@ Other choices include:
 * Fully customizable prompt, which is especially needed when working on non-English languages. The best open LLM are heavily English-focused and will tend to return translated results in English if they are not prompted in the languages of the source.
 * Support for open weights LLM by default with vllm. ChatGPT and other API-only solution may be integrated at some point in the future, but they are generally not meeting the requirements for running at scale.
 
-## Setting up marginalia
+## Data scheme
 
 The classification demo starts by attempting to classify rather a question from the OpenHermes dataset requires some external reference to back them up or not. This is a very concrete issue for Retrieval-Generated Augmentation (RAG), as an LLM can be used for a variety of tasks that do not always involve looking for references.
 
@@ -52,6 +52,8 @@ In this example we use both constraints for two different fields:
 * "reference_result" has to be a binary answer ("yes" or "no") as well as the option or not being applicable, for instance due to the analysis not being conclusive.
 
 Strong data constraints and unsufficiently clear prompts will result in longer generation and potentially the dataset not being fully annotated.
+
+## Instruction building
 
 The core of marginalia functionality is instruction_set. That's where you are going to pass the unstructured text, the data scheme and the prompt instructions.
 
