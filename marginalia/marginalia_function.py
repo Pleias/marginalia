@@ -1,4 +1,4 @@
-
+y
 #A function to apply a threshold of text length.
 #Especially useful to enforce reasoning.
 def evaluate_data_conformity(valid_json, data_scheme, entry):
@@ -18,7 +18,7 @@ def evaluate_data_conformity(valid_json, data_scheme, entry):
           entry[data_element.field] = choice_result
         else:
           valid_json = False
-  return valid_json
+  return entry, valid_json
 
 #A function to apply a limitating list of choices
 def evaluate_choices(valid_json, data_scheme, entry):
