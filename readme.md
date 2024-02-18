@@ -18,11 +18,11 @@ Other choices include:
 * Fully customizable prompt, which is especially needed when working on non-English languages. The best open LLM are heavily English-focused and will tend to return translated results in English if they are not prompted in the languages of the source.
 * Support for open weights LLM by default with vllm. ChatGPT and other API-only solution may be integrated at some point in the future, but they are generally not meeting the requirements for running at scale.
 
-## Data analysis
+## Setting up marginalia
+
+The classification demo starts by attempting to classify rather a question from the OpenHermes dataset requires some external reference to back them up or not. This is a very concrete issue for Retrieval-Generated Augmentation (RAG), as an LLM can be used for a variety of tasks that do not always involve looking for references.
 
 marginalia works with any list of unstructured texts. It will generate id on the fly simply based on the index of the text, as well as return the unprocessed text as part of the json output. 
-
-The classification demo starts by attempting to classify rather a question from the OpenHermes dataset requires some external reference to back them up or not. This is a very concrete issue for Retrieval-Generated Augmentation (RAG), as an LLM can be used for a variety of tasks that do not always involve looking for references. 
 
 ```python
 import pandas as pd
@@ -69,13 +69,13 @@ instructions = instruction_set(data_scheme = data_scheme,
 ```
 
 As you can notice the prompt has seven parts:
-* System prompt: basically defining what kind of the tool LLM is, in a very broad way.
-* Input prompt: the actual task at hand.
-* Definition prompt: the introductory prompt for the list of definitions stored in the data scheme.
-* Structure prompt: the introductory prompt for an empty sample of the json structure.
-* Data prompt: the introductory prompt for the list of unstructured text sample.
-* Name id: the name used to qualify each unstructured text sample
-* Size of the batch: marginalia groups text in batch for quicker inference and enhanced accuracy. Overall your text sample are, the smaller your batch should be to not overload the context window. Here the questions can be long so we settle for a batch of size of 5 instead of the default 10.
+* **System prompt**: basically defining what kind of the tool LLM is, in a very broad way.
+* **Input prompt**: the actual task at hand.
+* **Definition prompt**: the introductory prompt for the list of definitions stored in the data scheme.
+* **Structure prompt**: the introductory prompt for an empty sample of the json structure.
+* **Data prompt**: the introductory prompt for the list of unstructured text sample.
+* **Name id**: the name used to qualify each unstructured text sample
+* **Size of the batch**: marginalia groups text in batch for quicker inference and enhanced accuracy. Overall your text sample are, the smaller your batch should be to not overload the context window. Here the questions can be long so we settle for a batch of size of 5 instead of the default 10.
 
 Before launching the actual LLM-powered annotation, it is advisable to give a look the data and check if everything is fine. You can do it with test_prompt:
 
@@ -87,8 +87,6 @@ print(instructions.prompts[0])
 Which should return something like:
 
 ```text
-
-
 <|im_start|>system
 You are a powerful evaluator of user inputs
 <|im_end|>
@@ -115,10 +113,8 @@ question 4: This is vital to ensuring that people can make the right choices abo
 <|im_start|> assistant
 ```
 
-
 ## Annotation with vllm
-
-Then to use the LLM, you need to load it with vllm. The notebook provide a tested solution for Google Colab but do not hesitate to check the vllm documentation:
+Then to use the LLM, you need to load it with vllm.
 ```python
 from vllm import LLM, SamplingParams
 import os
