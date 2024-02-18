@@ -4,11 +4,11 @@
 <img src="https://raw.githubusercontent.com/Pleias/marginalia/main/notebook/marginalia_logo.jpg" alt="marginalia logo" width="300"/>
 </p>
 
-marginalia is a lightweight application to perform corpus analysis at scale with open LLMs like Mistral or Llama. With proper instructions, marginalia will transform any list of texts into structured data.
+**marginalia** is an opinionated python library to perform corpus analysis at scale with open LLMs like Mistral or Llama. With proper instructions, marginalia will transform any list of texts into structured data.
 
 The easiest way to discover marginalia is to test the associated Google Colab notebook for [data extraction](https://colab.research.google.com/drive/1xKjK2mDDpXMaKG5YLpFhOM7jehxt0kEt?usp=sharing) or [text classification](https://colab.research.google.com/drive/1dMcldrZtootOyRmC_Ug5552iy9T4e-0c?usp=sharing). Notice that for now you will need to use an A100 GPU (recommended in any case for larger scale corpus analysis with vllm).
 
-In contrast with other json libraries and frameworks for LLM, marginalia relies on a "brute force" approach that takes advantage of the generation speed of vllm. Depending on the prompt, 5-10% of the generated annotations will not be compliant, either because they are not valid json or because they cannot be unambiguously associated to the original text. marginalia will re-generate every non-compliant data until the output is complete.
+In contrast with other json libraries and frameworks for LLM, marginalia does not rely on *controlled generation* but on *bootstrap generation*. Instead of selecting LLM output at the token level, marginalia retain or reject entire generation. This approach takes advantage of the generation speed of vllm. Depending on the prompt and the data constraints, a significant share of the generated annotations will not be compliant, either because they are not valid json, because they cannot be unambiguously associated to the original text or because they fail to satisfy some explicit conditions. marginalia will re-generate every non-compliant data until the output is complete.
 
 Other choices include:
 * Sending the pieces of data as "batch" (10 elements by default). Previous trials show that hading more than one sample helps the LLM to identify recurring patterns. It may also speed up text generation.
