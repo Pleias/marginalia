@@ -9,7 +9,7 @@
 The easiest way to discover marginalia is to test the Google Colab demo for [text classification](https://colab.research.google.com/drive/1dMcldrZtootOyRmC_Ug5552iy9T4e-0c?usp=sharing) that requires an A100 (available for colab pro). There is also a [light demo](https://colab.research.google.com/drive/1_ah2DwAYThfgu3C8HlCimAhbkM59Am3F?usp=sharing) running on the free version of Google Colab: text generation is done by a "quantized" LLM (autoawq), which results in slower inference and lower quality overall, but still a good way to discover marginalia.
 
 ## Concept
-In contrast with other json libraries and frameworks for LLM, marginalia does not rely on *controlled generation* but on *bootstrap generation*: instead of selecting LLM output at the token level, marginalia retain or reject entire generation.
+In contrast with other json libraries and frameworks for LLM, marginalia does not rely on *controlled generation* but on *bootstrap generation*: instead of selecting LLM output at the token level, marginalia retains or rejects an entire generation.
 
 marginalia is closely integrated with vllm, and takes advantage of its generation speed. Depending on the prompt and the data constraints, a significant share of the generated annotations will not be compliant, either because they are not valid json, because they cannot be unambiguously associated to the original text or because they fail to satisfy some explicit conditions. marginalia will re-generate every non-compliant data until the output is complete.
 
