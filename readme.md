@@ -42,7 +42,7 @@ While they need to be used carefully and in close accordance with the prompt, da
 ```python
 from marginalia import data_entity
 
-data_scheme = [data_entity(field = "reference_evaluate",, 
+data_scheme = [data_entity(field = "reference_evaluate",
                            definition = "argument whether answering the question is about knowledge and require some references rather than a task like translation, with a few concise sentences",
                            min_length = 7),
                data_entity(field = "reference_result",
