@@ -6,7 +6,9 @@
 
 **marginalia** is an opinionated python library for structured data generation at scale with open LLMs like Mistral or Llama. With proper instructions, marginalia will transform any list of texts into structured data.
 
-The easiest way to discover marginalia is to test the Google Colab demo for [text classification](https://colab.research.google.com/drive/1dMcldrZtootOyRmC_Ug5552iy9T4e-0c?usp=sharing) that requires an A100 (available for colab pro). There is also a [light demo](https://colab.research.google.com/drive/1_ah2DwAYThfgu3C8HlCimAhbkM59Am3F?usp=sharing) running on the free version of Google Colab: text generation is done by a "quantized" LLM (autoawq), which results in slower inference and lower quality overall, but still a good way to discover marginalia.
+The easiest way to discover marginalia is to test it Google Colab:
+* [Original demo](https://colab.research.google.com/drive/1dMcldrZtootOyRmC_Ug5552iy9T4e-0c?usp=sharing) for [text classification] with Mistral OpenHermes 2.5 that requires an A100 (available for colab pro).
+* [Light demo](https://colab.research.google.com/drive/1_ah2DwAYThfgu3C8HlCimAhbkM59Am3F?usp=sharing) running on the free version of Google Colab: text generation is done by a "quantized" LLM (autoawq), which results in slower inference and lower quality overall, but still a good way to discover marginalia.
 
 ## Concept
 In contrast with other json libraries and frameworks for LLM, marginalia does not rely on *controlled generation* but on *bootstrap generation*: instead of selecting LLM output at the token level, marginalia retains or rejects an entire generation.
