@@ -8,10 +8,10 @@ def evaluate_data_conformity(valid_json, data_scheme, entry):
       
       #Evaluation 1: length
       if data_element.min_length is not None:
-        if data_element.field is not None:
+        try:
           if len(entry[data_element.field].split())<=data_element.min_length:
             valid_json = False
-        else:
+        except:
           valid_json = False
 
       #Evaluation 2: choices
